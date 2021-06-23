@@ -1,6 +1,7 @@
 const WIDTH = 400;
 const HEIGHT = 600;
 
+// a test array of given barren land coordinates.
 const originalCoords = [
   [48, 192, 351, 207],
   [48, 392, 351, 407],
@@ -8,7 +9,7 @@ const originalCoords = [
   [260, 52, 275, 547]
 ];
 
-var initialCoordObject = {
+let initialCoordObject = {
   x: 0,
   y: 0,
   touched: false
@@ -16,8 +17,8 @@ var initialCoordObject = {
 
 // allCoords represents the full coordinates of the farm as a 2D array of objects.
 // populate allCoords with objects that have default values. 
-var allCoords = new Array(WIDTH).fill(initialCoordObject).map(() => new Array(HEIGHT).fill(initialCoordObject));
-var fertileLand = [];
+let allCoords = new Array(WIDTH).fill(initialCoordObject).map(() => new Array(HEIGHT).fill(initialCoordObject));
+let fertileLand = [];
 
 main();
 
@@ -29,7 +30,7 @@ function main() {
   
   printOriginalCoordinateGrid(originalCoords);
   
-  //minor tests
+  //minor tests (not the test cases listed in documentation)
   console.log("trying to print barren coord: is it barren? " + allCoords[50][195].touched);
   console.log("trying to print barren coord: is it barren? " + allCoords[351][407].touched);
   console.log("trying to print barren coord: is it barren? " + allCoords[120][52].touched);
@@ -43,12 +44,12 @@ function main() {
  * Prints the results as a string, sorted from largest to smallest.  
  */
 function returnFertileLand() {
-  var resultSet = "";
-  for(var i=0; i<WIDTH; i++) {
-  	for(var j=0; i<HEIGHT; j++) {
-    	var point = allCoords[i][j];
+  let resultSet = "";
+  for(let i=0; i<WIDTH; i++) {
+  	for(let j=0; i<HEIGHT; j++) {
+    	let point = allCoords[i][j];
   		if(point.touched === false) {
-      	var fertileArea = touchContiguousSpace(allCoords, i, j);
+      	let fertileArea = touchContiguousSpace(allCoords, i, j);
         fertileLand.add(fertileArea);
         returnFertileLand(fertileLand);
       }
@@ -63,7 +64,7 @@ function returnFertileLand() {
   else {
       // only sort fertile land if array is populated
       fertileLand = fertileLand.sort(function(a, b){return b-a});
-      for(var i=0; i<fertileLand.length; i++) {
+      for(let i=0; i<fertileLand.length; i++) {
         resultSet += " " + fertileLand[i];
       }
       console.log(resultSet);
@@ -80,7 +81,7 @@ function initialCoordinatePopulate() {
     
   for (let i = 0; i < WIDTH; i++) {
     for (let j = 0; j < HEIGHT; j++) {
-      var current = {
+      let current = {
       	x: i,
         y: j,
         touched: false
@@ -111,7 +112,7 @@ function checkIfBarren(inputCoords, i, j) {
   //format: [x1, y1, x2, y2]
   
   //y coordinate: y1 <= y <= y2 AND x coordinate: x1 <= x <= x2
-  var insideBarrenBoundary = j <= inputCoords[3] && j >= inputCoords[1] && i >= inputCoords[0] && i <= inputCoords[2];
+  let insideBarrenBoundary = j <= inputCoords[3] && j >= inputCoords[1] && i >= inputCoords[0] && i <= inputCoords[2];
   if (insideBarrenBoundary) {
     return true;
   } else {
@@ -126,12 +127,12 @@ function checkIfBarren(inputCoords, i, j) {
  * @param {number} y - first y coordinate of a fertile area
  */
 function touchContiguousSpace(fullSpace, x, y) {
-	var count = 0;
-  var contiguousStack = [];
+	let count = 0;
+  let contiguousStack = [];
   contiguousStack.push({x:x, y:y})
   
   while(!contiguousStack.length === 0) {
-  	var point = contiguousStack.pop();
+  	let point = contiguousStack.pop();
   	if(isPointUntouched(fullSpace, point)) {
     	count++;
       
@@ -173,22 +174,21 @@ function isPointUntouched(fullSpace, c) {
 /**
  * Page control logic / helpers
  */
- var x = 0;
- var array = Array();
+ let x = 0;
+ let array = Array();
  
  function add_element_to_array() {
-   array[x] = document.getElementById("text1").value;
-   //alert("Element: " + array[x] + " Added at index " + x);
+   array[x] = document.getElementById("coordinates").value;
    x++;
-   document.getElementById("text1").value = "";
+   document.getElementById("coordinates").value = "";
    this.display_array();
    this.main();
  }
  
  function display_array() {
-   var e = "<hr/>";
+   let e = "<hr/>";
  
-   for (var y = 0; y < array.length; y++) {
+   for (let y = 0; y < array.length; y++) {
      e += "Element " + y + " = " + array[y] + "<br/>";
    }
    document.getElementById("Result").innerHTML = e;
@@ -199,8 +199,8 @@ function isPointUntouched(fullSpace, c) {
   */
 function printPartialCoordinateGrid(inputCoords) {
 	console.log("printPartialCoordinateGrid");
-  for (var i = 0; i < 2; i++) {
-      for (var j = 0; j < 2; j++) {
+  for (let i = 0; i < 2; i++) {
+      for (let j = 0; j < 2; j++) {
         console.log("x: " + inputCoords[i][j].x + " y: " + inputCoords[i][j].y + " touched: " + inputCoords[i][j].touched);
       }
     }
@@ -208,8 +208,8 @@ function printPartialCoordinateGrid(inputCoords) {
 
 function printOriginalCoordinateGrid(inputCoords) {
 	console.log("printPartialCoordinateGrid");
-  for (var i = 0; i < inputCoords.length; i++) {
-      for (var j = 0; j < inputCoords[i].length; j++) {
+  for (let i = 0; i < inputCoords.length; i++) {
+      for (let j = 0; j < inputCoords[i].length; j++) {
         console.log(inputCoords[i][j]);
       }
     }
