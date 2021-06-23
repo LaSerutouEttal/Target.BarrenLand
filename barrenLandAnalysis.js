@@ -23,20 +23,24 @@ let fertileLand = [];
 main();
 
 function main() {
+  if(!coordinatesAreInvalid()) {
+    initialCoordinatePopulate(allCoords);
   
-  initialCoordinatePopulate(allCoords);
-  
-  printPartialCoordinateGrid(allCoords);
-  
-  printOriginalCoordinateGrid(originalCoords);
-  
-  //minor tests (not the test cases listed in documentation)
-  console.log("trying to print barren coord: is it barren? " + allCoords[50][195].touched);
-  console.log("trying to print barren coord: is it barren? " + allCoords[351][407].touched);
-  console.log("trying to print barren coord: is it barren? " + allCoords[120][52].touched);
-  console.log("trying to print barren coord: is it barren? " + allCoords[260][52].touched);
-  
-  fertileLand = returnFertileLand(fertileLand);
+    printPartialCoordinateGrid(allCoords);
+    
+    printOriginalCoordinateGrid(originalCoords);
+    
+    //minor tests (not the test cases listed in documentation)
+    console.log("trying to print barren coord: is it barren? " + allCoords[50][195].touched);
+    console.log("trying to print barren coord: is it barren? " + allCoords[351][407].touched);
+    console.log("trying to print barren coord: is it barren? " + allCoords[120][52].touched);
+    console.log("trying to print barren coord: is it barren? " + allCoords[260][52].touched);
+    
+    fertileLand = returnFertileLand(fertileLand);
+  }
+  else {
+    console.log("Input coordinates out of bounds.");
+  }
 }
 
 /**
@@ -171,13 +175,41 @@ function isPointUntouched(fullSpace, c) {
   }
 }
 
+/*
+* Validation for given barren land coordinates.
+**/
+function coordinatesAreInvalid() {
+  invalidInput = false;
+  for(let i=0; i<originalCoords.length; i++) {
+    for(let j=0; j<originalCoords[0].length; j++) {
+      //first x coordinate is out of bounds
+      if(originalCoords[i][0] < 0 || originalCoords[i][0] > 399) {
+        return true;
+      }
+      //first y coordinate is out of bounds
+      else if(originalCoords[i][1] < 0 || originalCoords[i][1] > 599) {
+        return true;
+      }
+      //second x coordinate is out of bounds
+      else if(originalCoords[i][2] < 0 || originalCoords[i][2] > 399) {
+        return true;
+      }
+      //second x coordinate is out of bounds
+      else if(originalCoords[i][3] < 0 || originalCoords[i][3] > 599) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 /**
  * Page control logic / helpers
  */
  let x = 0;
  let array = Array();
  
- function add_element_to_array() {
+ function addElementToArray() {
    array[x] = document.getElementById("coordinates").value;
    x++;
    document.getElementById("coordinates").value = "";
@@ -185,7 +217,7 @@ function isPointUntouched(fullSpace, c) {
    this.main();
  }
  
- function display_array() {
+ function displayArray() {
    let e = "<hr/>";
  
    for (let y = 0; y < array.length; y++) {
